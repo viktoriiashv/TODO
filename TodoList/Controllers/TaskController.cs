@@ -25,5 +25,11 @@ namespace TodoList.Controllers
         {
             Task.addTask(task);
         }
+
+        [HttpPatch("{id}")]
+        public void Patch(int id, bool doneCondition)
+        {
+            Task.changeCondition(id, doneCondition);
+        }
     }
 }
