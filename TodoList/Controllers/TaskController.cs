@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using TodoList.Models;
 
@@ -27,9 +28,10 @@ namespace TodoList.Controllers
         }
 
         [HttpPatch("{id}")]
-        public void Patch(int id, bool doneCondition)
+        public void Patch(int id, [FromBody]TaskPatchRequest body)
         {
-            Task.changeCondition(id, doneCondition);
+            Console.WriteLine(id + " " + body.done);
+            Task.changeCondition(id, body.done);
         }
     }
 }
