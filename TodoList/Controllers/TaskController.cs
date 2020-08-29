@@ -33,5 +33,11 @@ namespace TodoList.Controllers
             Console.WriteLine(id + " " + body.done);
             Task.changeCondition(id, body.done);
         }
+
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            Task.deleteTask(id);
+        }
     }
 }

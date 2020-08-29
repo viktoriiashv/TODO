@@ -17,21 +17,24 @@ namespace TodoList.Models
     public class Task
     {
 
+
         public Task()
         {
         }
 
-        public Task(int id, string name, bool done)
+        public Task(int id, string name, bool done, int taskListId)
         {
             this.id = id;
             this.name = name;
             this.done = done;
+            this.taskListId = taskListId;
         }
 
         public int id { get; set; }
         public string name { get; set; }
-        public bool done { get; set; }
 
+        public bool done { get; set; }
+        public int taskListId { get; set; }
 
         public static void addTask(Task task)
         {
@@ -53,7 +56,15 @@ namespace TodoList.Models
             {
                 TaskDBService.UpdateData(id, doneCondition);
             }
-            
+
+        }
+        public static void deleteTask(int id)
+        {
+            Dictionary<int, Task> ToDoList = TaskDBService.GetDataFromDB();
+            if (ToDoList.ContainsKey(id))
+            {
+                TaskDBService.DeleteData(id);
+            }
         }
     }
 }
