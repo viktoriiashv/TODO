@@ -17,32 +17,31 @@ namespace TodoList.Controllers
         [HttpGet("")]
         public string Get()
         {
-            return TaskList.getTaskListsJson();
+            return TaskList.GetTaskListsJson();
         }
 
         [HttpGet("{id}")]
         public string GetListTasks(int id)
         {
-            return TaskList.getListTasksJson(id);
+            return TaskList.GetListTasksJson(id);
         }
 
         [HttpPost("")]
         public void Post(TaskList taskList)
         {
-            TaskList.addTaskList(taskList);
+            TaskList.AddTaskList(taskList);
         }
 
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            TaskList.deleteTaskList(id);
+            TaskList.DeleteTaskList(id);
         }
 
         [HttpPatch("{id}")]
         public void Patch(int id, [FromBody] TaskListPatchRequest body)
         {
-            Console.WriteLine(id + " " + body.Name);
-            TaskList.EditName(id, body.Name);
+            TaskList.EditTaskListName(id, body.Name);
         }
     }
 }

@@ -17,27 +17,26 @@ namespace TodoList.Controllers
         [HttpGet("")]
         public string Get()
         {
-            return Task.getTaskListJson();
+            return Task.GetTaskListJson();
         }
 
         // POST api/tasks
         [HttpPost("")]
         public void Post(Task task)
         {
-            Task.addTask(task);
+            Task.AddTask(task);
         }
 
         [HttpPatch("{id}")]
-        public void Patch(int id, [FromBody]TaskPatchRequest body)
+        public void Patch(int id, [FromBody] TaskPatchRequest body)
         {
-            Console.WriteLine(id + " " + body.done);
-            Task.changeCondition(id, body.done);
+            Task.ChangeTaskCondition(id, body.Done);
         }
 
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            Task.deleteTask(id);
+            Task.DeleteTask(id);
         }
     }
 }

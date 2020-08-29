@@ -16,7 +16,10 @@ namespace TodoList.Models
 {
     public class Task
     {
-
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public bool Done { get; set; }
+        public int TaskListId { get; set; }
 
         public Task()
         {
@@ -24,32 +27,22 @@ namespace TodoList.Models
 
         public Task(int id, string name, bool done, int taskListId)
         {
-            this.id = id;
-            this.name = name;
-            this.done = done;
-            this.taskListId = taskListId;
+            this.Id = id;
+            this.Name = name;
+            this.Done = done;
+            this.TaskListId = taskListId;
         }
 
-        public int id { get; set; }
-        public string name { get; set; }
-
-        public bool done { get; set; }
-        public int taskListId { get; set; }
-
-        public static void addTask(Task task)
+        public static void AddTask(Task task)
         {
-            Dictionary<int, Task> ToDoList = TaskDBService.GetDataFromDB();
-            task.id = ToDoList.Count > 0 ? ToDoList.Keys.Max() + 1 : 1; //max needs at least 1 element in dictionary
             TaskDBService.InsertData(task);
         }
 
-        public static string getTaskListJson()
+        public static string GetTaskListJson()
         {
-            JsonSerializerOptions jso = new JsonSerializerOptions();
-            jso.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
-            return JsonSerializer.Serialize(TaskDBService.GetDataFromDB().Select(d => d.Value), jso);
+            return JsonSerializer.Serialize(TaskDBService.GetDataFromDB().Select(d => d.Value), getJsonSerializerOptions());
         }
-        public static void changeCondition(int id, bool doneCondition)
+        public static void ChangeTaskCondition(int id, bool doneCondition)
         {
             Dictionary<int, Task> ToDoList = TaskDBService.GetDataFromDB();
             if (ToDoList.ContainsKey(id))
@@ -58,13 +51,19 @@ namespace TodoList.Models
             }
 
         }
-        public static void deleteTask(int id)
+        public static void DeleteTask(int id)
         {
             Dictionary<int, Task> ToDoList = TaskDBService.GetDataFromDB();
             if (ToDoList.ContainsKey(id))
             {
                 TaskDBService.DeleteData(id);
             }
+        }
+        public static JsonSerializerOptions getJsonSerializerOptions()
+        {
+            JsonSerializerOptions jso = new JsonSerializerOptions();
+            jso.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
+            return jso;
         }
     }
 }

@@ -23,43 +23,51 @@ namespace TodoList.Models
 
         public TaskList(int id, string name)
         {
-            this.id = id;
-            this.name = name;
+            this.Id = id;
+            this.Name = name;
         }
 
-        public int id { get; set; }
-        public string name { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
 
-        public static void addTaskList(TaskList taskList)
+        public static void AddTaskList(TaskList taskList)
         {
-            Dictionary<int, TaskList> ToDoList = TaskDBService.GetTaskListsFromDB();
-            taskList.id = ToDoList.Count > 0 ? ToDoList.Keys.Max() + 1 : 1; //max needs at least 1 element in dictionary
-            TaskDBService.InsertDataTaskList(taskList);
+            TaskListDBService.InsertData(taskList);
         }
 
-        internal static void deleteTaskList(int id)
+        internal static void DeleteTaskList(int id)
         {
-            TaskDBService.DeleteTaskList(id);
+            Dictionary<int, TaskList> TaskLists = TaskListDBService.GetTaskListsFromDB();
+            if (TaskLists.ContainsKey(id))
+            {
+                TaskListDBService.DeleteData(id);
+            }
         }
 
-        internal static void EditName(int id, string name)
+        public static void EditTaskListName(int id, string name)
         {
-            TaskDBService.UpdateDataTaskList(id, name);
+            Dictionary<int, TaskList> TaskLists = TaskListDBService.GetTaskListsFromDB();
+            if (TaskLists.ContainsKey(id))
+            {
+                TaskListDBService.UpdateData(id, name);
+            }
+        }
+        public static string GetTaskListsJson()
+        {
+            return JsonSerializer.Serialize(TaskListDBService.GetTaskListsFromDB().Select(d => d.Value), GetJsonSerializerOptions());
         }
 
-        public static string getTaskListsJson()
+        public static string GetListTasksJson(int id)
+        {
+            return JsonSerializer.Serialize(TaskListDBService.GetListTasksFromDB(id).Select(d => d.Value), GetJsonSerializerOptions());
+        }
+
+        public static JsonSerializerOptions GetJsonSerializerOptions()
         {
             JsonSerializerOptions jso = new JsonSerializerOptions();
             jso.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
-            return JsonSerializer.Serialize(TaskDBService.GetTaskListsFromDB().Select(d => d.Value), jso);
+            return jso;
         }
 
-        public static string getListTasksJson(int id)
-        {
-            JsonSerializerOptions jso = new JsonSerializerOptions();
-            jso.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
-            return JsonSerializer.Serialize(TaskDBService.GetListTasksFromDB(id).Select(d => d.Value), jso);
-        }
-        
     }
 }

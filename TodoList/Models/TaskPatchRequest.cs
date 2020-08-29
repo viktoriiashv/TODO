@@ -7,6 +7,6 @@ namespace TodoList.Models
 {
     public class TaskPatchRequest
     {
-        public bool done { get; set; }
+        public bool Done { get; set; }
     }
 }
