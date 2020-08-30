@@ -51,6 +51,18 @@ namespace TodoList.Models
             }
 
         }
+        public static void ChangeTaskName(int id, string name)
+        {
+            Dictionary<int, Task> ToDoList = TaskDBService.GetDataFromDB();
+            if (ToDoList.ContainsKey(id))
+            {
+                if(name != "" && name != null)
+                {
+                    TaskDBService.UpdateDataName(id, name);
+                }
+            }
+
+        }
         public static void DeleteTask(int id)
         {
             Dictionary<int, Task> ToDoList = TaskDBService.GetDataFromDB();

@@ -39,6 +39,15 @@ namespace TodoList.Controllers
                 dbCommand.ExecuteNonQuery();
             }
         }
+        public static void UpdateDataName(int id, string name)
+        {
+            string command = "UPDATE Tasks SET Name = '" + name + "' WHERE ID = " + id;
+            using (SqliteConnection connection = DBService.DBConnection())
+            {
+                SqliteCommand dbCommand = DBService.ExecuteCommand(command, connection);
+                dbCommand.ExecuteNonQuery();
+            }
+        }
 
         public static Dictionary<int, Task> GetDataFromDB()
         {

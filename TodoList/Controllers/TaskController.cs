@@ -30,6 +30,7 @@ namespace TodoList.Controllers
         [HttpPatch("{id}")]
         public void Patch(int id, [FromBody] TaskPatchRequest body)
         {
+            Console.WriteLine(body.Done + " " + body.Name);
             Task.ChangeTaskCondition(id, body.Done);
         }
 
